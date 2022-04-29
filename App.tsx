@@ -1,10 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import CreateComponent from './components/CreateComponent';
 import ReadComponent from './components/ReadComponent';
-import UpdateComponent from './components/UpdateComponent';
-
-const Stack = createStackNavigator();
 
 import { initializeApp } from 'firebase/app';
 
@@ -20,24 +15,9 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 function CrudStack() {
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      >
-      <Stack.Screen 
-        name="ReadComponent" 
-        component={ReadComponent} 
-        options={{ title: 'List' }}
-      />
-    </Stack.Navigator>
+    <ReadComponent />
   );
 }
 

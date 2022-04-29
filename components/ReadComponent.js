@@ -1,59 +1,37 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View } from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
+const auth = require('../proto/user_pb');
 
 class ReadComponent extends Component {
   constructor() {
     super();
-    // this.docs = firebase.firestore().collection('promotions');
     this.state = {
       isLoading: true,
-      promotions: []
+      promotions: [],
+      serializedData: '',
+      decriptedData: '',
     };
   }
 
   componentDidMount() {
-    // this.unsubscribe = this.docs.onSnapshot(this.fetchCollection);
-  }
-
-  componentWillUnmount(){
-    this.unsubscribe();
-  }
-
-  fetchCollection = (querySnapshot) => {
-    const promotions = [];
-    querySnapshot.forEach((res) => {
-      const { 
-          buttonLabel, 
-          conditionMessage, 
-          detailMessagerItems, 
-          detailMessageTitle,
-          headerImage,
-          navigateTo,
-          termsAndConditions, 
-          title
-         } = res.data();
-      promotions.push({
-        key: res.id,
-        name,
-        designation
+      const authObj = new auth.User();
+      authObj.setEmail("usuariodeuna@gmail.com");
+      authObj.setPassword("Password@1234");
+      const serializedData = authObj.serializeBinary();
+      this.setState({ serializedData }, () => {
+        const decriptedData = auth.User.deserializeBinary(serializedData);
+        this.setState({ decriptedData: decriptedData.toObject() });
+        console.log('decripted data: ', decriptedData.toObject());
       });
-    });
-    this.setState({
-      students,
-      isLoading: false
-   });
   }
 
-  render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color="red"/>
-        </View>
-      )
-    }    
+  render() {   
     return (
       <ScrollView style={styles.wrapper}>
+        <Text>Serialized data</Text>
+        <Text>{this.state.serializedData}</Text>
+        <Text>Decripted data</Text>
+        <Text>{this.state.decriptedData.email}</Text>
       </ScrollView>
     );
   }
@@ -62,7 +40,7 @@ class ReadComponent extends Component {
 const styles = StyleSheet.create({
   wrapper: {
    flex: 1,
-   paddingBottom: 20
+   padding: 64
   },
   loader: {
     position: 'absolute',
