@@ -16,9 +16,11 @@ class ReadComponent extends Component {
       const authObj = new auth.User();
       authObj.setEmail("usuariodeuna@gmail.com");
       authObj.setPassword("Password@1234");
-      const serializedData = authObj.serializeBinary();
+      const users = new auth.UsersList();
+      users.setUsersList([authObj]);
+      const serializedData = users.serializeBinary();
       this.setState({ serializedData }, () => {
-        const decriptedData = auth.User.deserializeBinary(serializedData);
+        const decriptedData = auth.UsersList.deserializeBinary(serializedData);
         this.setState({ decriptedData: decriptedData.toObject() });
         console.log('decripted data: ', decriptedData.toObject());
       });
@@ -30,7 +32,7 @@ class ReadComponent extends Component {
         <Text>Serialized data</Text>
         <Text>{this.state.serializedData}</Text>
         <Text>Decripted data</Text>
-        <Text>{this.state.decriptedData.email}</Text>
+        {/* <Text>{this.state.decriptedData.email}</Text> */}
       </ScrollView>
     );
   }
