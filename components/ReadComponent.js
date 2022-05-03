@@ -7,7 +7,6 @@ class ReadComponent extends Component {
     super();
     this.state = {
       isLoading: true,
-      promotions: [],
       serializedData: '',
       decriptedData: '',
     };
