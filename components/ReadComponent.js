@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { StyleSheet, ScrollView, Text } from 'react-native';
 const auth = require('../proto/user_pb');
 
@@ -12,27 +13,38 @@ class ReadComponent extends Component {
     };
   }
 
-  componentDidMount() {
+ componentDidMount() {
       const authObj = new auth.User();
       authObj.setEmail("usuariodeuna@gmail.com");
       authObj.setPassword("Password@1234");
       const users = new auth.UsersList();
       users.setUsersList([authObj]);
       const serializedData = users.serializeBinary();
-      this.setState({ serializedData }, () => {
-        const decriptedData = auth.UsersList.deserializeBinary(serializedData);
-        this.setState({ decriptedData: decriptedData.toObject() });
-        console.log('decripted data: ', decriptedData.toObject());
-      });
+      // this.setState({ serializedData }, () => {
+      //   const decriptedData = auth.UsersList.deserializeBinary(serializedData);
+      //   this.setState({ decriptedData: decriptedData.toObject() });
+      //   console.log('decripted data: ', decriptedData.toObject());
+      // });
+
+      axios.get('https://pay-protobuf-contact-poc-okp7tl3dtq-uk.a.run.app/courses/1', { headers: {
+        'content-type': 'application/x-protobuf'
+      },
+      responseType: 'arraybuffers'
+    }).then(function (response) {
+      console.log(response)
+    })
+    .catch(function (response) {
+      console.log(response)
+    })
   }
 
   render() {   
     return (
       <ScrollView style={styles.wrapper}>
         <Text>Serialized data</Text>
-        <Text>{this.state.serializedData}</Text>
+        {/* <Text>{this.state.serializedData}</Text>
         <Text>Decripted data</Text>
-        {/* <Text>{this.state.decriptedData.email}</Text> */}
+        {this.state.decriptedData && this.state.decriptedData.map(user => <Text>{user.email}</Text>)} */}
       </ScrollView>
     );
   }
