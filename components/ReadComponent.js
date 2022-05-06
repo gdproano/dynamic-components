@@ -26,16 +26,32 @@ class ReadComponent extends Component {
       //   console.log('decripted data: ', decriptedData.toObject());
       // });
 
-      axios.get('https://pay-protobuf-contact-poc-okp7tl3dtq-uk.a.run.app/courses/1', { headers: {
-        'content-type': 'application/x-protobuf'
-      },
-      responseType: 'arraybuffers'
-    }).then(function (response) {
-      console.log(response)
-    })
-    .catch(function (response) {
-      console.log(response)
-    })
+      axios.post('https://pay-protobuf-contact-poc-okp7tl3dtq-uk.a.run.app/course',serializedData, {
+        headers: {
+              'content-type': 'application/x-protobuf'
+          },
+        responseType: 'arraybuffer'
+      })
+      .then(function (response) {
+          console.log(auth.Course.deserializeBinary(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    //   fetch('https://pay-protobuf-contact-poc-okp7tl3dtq-uk.a.run.app/courses/1', { headers: {
+    //     'content-type': 'application/x-protobuf'
+    //   },
+    //   responseType: 'arraybuffers'
+    //   meth
+    // })
+    // .then(function (response) {
+    //   const coursesObj = auth.Course.deserializeBinary(response);
+    //   console.log(coursesObj);
+    // })
+    // .catch(function (response) {
+    //   console.log(response)
+    // })
   }
 
   render() {   
