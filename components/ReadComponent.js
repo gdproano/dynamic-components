@@ -33,8 +33,8 @@ class ReadComponent extends Component {
         responseType: 'arraybuffer'
       })
       .then(function (response) {
-          console.log(auth.Course.deserializeBinary(response.data));
-      })
+        console.log(JSON.parse(new TextDecoder().decode(response.data)));
+    })
       .catch(function (error) {
         console.log(error);
       });
